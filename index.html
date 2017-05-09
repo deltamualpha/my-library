@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test</title>
+  <script type="text/javascript" src='js/jquery.js'></script>
+  <script type="text/javascript" src='js/mustache.js'></script>
+  <script type="text/javascript" src='js/lodash.core.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script type='text/javascript'>    
+    var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1w5Dc57wV0_rrKFsG7KM-qdPWEpqYk6lFu3JzAA0cSv0/pubhtml';
+
+    function init() {
+      Tabletop.init({
+        key: publicSpreadsheetUrl,
+        callback: showInfo,
+        simpleSheet: true
+      });
+    }
+
+    function showInfo(data, tabletop) {
+      renderTable(data, 'authorLast'); //default sorting on load is author's last name
+    }
+
+    function renderTable(data, sortField) {
+      data = _.sortBy(data, sortField);
+
+      $.each(data, function(key, value) {
+        value.rowNumber = key; // re-key for new sort
+      });
+
+      var template = $('#Table').html();
+      var rendered = Mustache.render(template, {books: data});
+      $('#books').html(rendered);
+      $("#books tbody tr").not(':first').on("click", function() {
+        updateCurrentBook(data[$(this)[0].id]); // ignore the headers
+      });
+      $("#books tbody tr th[data-sort-by]").on("click", function() {
+        renderTable(data, $(this).data('sortBy')); // only add callback when there's a sortBy attribute
+      });
+    }
+
+    function updateCurrentBook(book) {
+      var template = $('#View').html();
+      var rendered = Mustache.render(template, {book: book});
+      $('#current').html(rendered);
+    }
+
+    window.addEventListener('DOMContentLoaded', init)
+  </script>
+  <link rel="stylesheet" href="css/reset.css"></link>
+  <link rel="stylesheet" href="css/style.css"></link>
+</head>
+<body>
+  <div class="wrapper">
+    <div id="header">
+      <h1>Library</h1>
+      <a target="_blank" href="https://docs.google.com/spreadsheets/d/1w5Dc57wV0_rrKFsG7KM-qdPWEpqYk6lFu3JzAA0cSv0/edit">spreadsheet</a>
+      <a target="_blank" href="https://github.com/deltamualpha/my-library">github</a>
+    </div>
+    <div id="current">No Book Selected</div>
+    <div id="books"></div> <!-- Table goes here -->
+  </div>
+
+  <script id="Table" type="text/html">
+    <table class="bookTable">
+      <tr>
+        <th data-sort-by="title" class="tHeader title">Title</th>
+        <th data-sort-by="authorLast" class="tHeader author">Author</th>
+        <th data-sort-by="publisher" class="tHeader publisher">Publisher</th>
+        <th data-sort-by="year" class="tHeader year">Year</th>
+        <th class="tHeader isbn">ISBN</th>
+      </tr>
+      {{#books}}
+        <tr class="tRow" id="{{rowNumber}}">
+          <td class="title">{{title}}</td>
+          <td class="author">{{author}}</td>
+          <td class="publisher">{{publisher}}</td>
+          <td class="year">{{year}}</td>
+          <td class="isbn">{{isbn-13}}</td>
+        </tr>
+      {{/books}}
+    </table>
+  </script>
+
+  <script id="View" type="text/html">
+    {{#book}}
+      {{#coverurl}}
+        <img src="{{.}}"/>
+      {{/coverurl}}
+      <h1>{{title}}</h1>
+      <h2>{{author}}</h2>
+      <span>{{isbn-13}}</span><br/>
+      <span>{{publisher}}, {{year}}</span>
+      <div class="description">
+        <p>{{description}}</p>
+        {{#notes}}
+          <span>Notes:</span>
+          <p>{{.}}</p>
+        {{/notes}}
+      </div>
+    {{/book}}
+  </script>
+</body>
+</html>

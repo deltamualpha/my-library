@@ -1,0 +1,82 @@
+#header {
+  height: 30px;
+  width: calc(100vw - 20px);
+  padding: 4px 10px;
+  background-color: #f7f3dc;
+  border-bottom: 2px solid #d8d0a0;
+}
+
+#header h1{
+  font-size: xx-large;
+  display: inline;
+}
+
+#current {
+  background-color: #f7f3dc;
+  width: calc(40vw - 40px);
+  height: calc(100vh - 80px);
+  padding: 20px;
+  overflow: auto;
+  float: left;
+}
+
+#books {
+  width: calc(60vw - 40px);
+  height: calc(100vh - 80px);
+  padding: 20px;
+  overflow: auto;
+  float: left;
+}
+
+.bookTable th {
+  font-weight: bold;
+  text-align: left;
+}
+
+.bookTable th[data-sort-by] {
+  cursor: pointer;
+}
+
+.bookTable th[data-sort-by]::after {
+  content: "\f0dc";
+  font-family: FontAwesome;
+  font-size: x-small;
+  position: relative;
+  left: 4px;
+  bottom: 2px;
+}
+
+.bookTable td, .bookTable th {
+  padding: 5px;
+  min-width: 50px;
+}
+
+.bookTable .tRow {
+  cursor: pointer;
+}
+
+.bookTable .tRow .title {
+  font-style: italic;
+}
+
+#current h1 {
+  font-size: x-large;
+  font-weight: bold;
+  font-style: italic;
+  padding: 10px 0;
+}
+
+#current h2 {
+  font-size: large;
+  padding: 7px 0;
+}
+
+#current img {
+  max-height: 400px;
+  display: block;
+  margin: 0 auto;
+}
+
+#current .description p {
+  padding: 20px 0;
+}
