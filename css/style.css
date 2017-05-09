@@ -4,6 +4,7 @@
   padding: 4px 10px;
   background-color: #f7f3dc;
   border-bottom: 2px solid #d8d0a0;
+  font-family: 'Libre Baskerville', sans-serif;
 }
 
 #header h1{
@@ -31,6 +32,7 @@
 .bookTable th {
   font-weight: bold;
   text-align: left;
+  font-family: 'Libre Baskerville', sans-serif;
 }
 
 .bookTable th[data-sort-by] {
