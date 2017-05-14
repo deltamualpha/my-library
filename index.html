@@ -83,6 +83,7 @@
           <td class="publisher">{{publisher}}</td>
           <td class="year">{{year}}</td>
           <td class="isbn">{{isbn-13}}</td>
+          <td class="signed">{{signed}}</td>
         </tr>
       {{/books}}
     </table>
@@ -91,7 +92,7 @@
   <script id="View" type="text/html">
     {{#book}}
       {{#coverurl}}
-        <img src="{{.}}"/>
+        <img src="{{coverurl}}"/>
       {{/coverurl}}
       <h1>{{title}}</h1>
       <h2>{{author}}</h2>
@@ -100,6 +101,9 @@
       {{#series}}
         <span>{{series}}, Volume {{volume}}</span><br/>
       {{/series}}
+      {{#signed}}
+        <span>Signed by the author</span><br/>
+      {{/signed}}
       <span>{{format}}</span>
       <div class="description">
         <p>{{description}}</p>
