@@ -131,7 +131,7 @@ function normalizeGoogleData(book) {
     "isbn-10": _.find(book.industryIdentifiers, { type: "ISBN_10" }).identifier || '',
     "isbn-13": _.find(book.industryIdentifiers, { type: "ISBN_13" }).identifier || '',
     format: '',
-    genre: book.categories[0],
+    genre: book.categories ? book.categories[0] : '',
     publisher: _.trim(book.publisher, '"'),
     series: '',
     volume: '',
