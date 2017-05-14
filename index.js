@@ -8,6 +8,8 @@ var _ = require('lodash');
 var SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 var TOKEN_DIR = '.credentials/';
 var TOKEN_PATH = TOKEN_DIR + 'sheets.googleapis.com-my-library.json';
+var SHEET_ID = '1w5Dc57wV0_rrKFsG7KM-qdPWEpqYk6lFu3JzAA0cSv0';
+var SHEET_NAME = 'Sheet1';
 
 // Load client secrets from a local file.
 fs.readFile(TOKEN_DIR + 'client_secret.json', function processClientSecrets(err, content) {
@@ -148,12 +150,12 @@ function appendToSheet(auth, book) {
   var sheets = google.sheets('v4');
   sheets.spreadsheets.values.append({
     auth: auth,
-    spreadsheetId: '1w5Dc57wV0_rrKFsG7KM-qdPWEpqYk6lFu3JzAA0cSv0',
-    range: 'Sheet1',
+    spreadsheetId: SHEET_ID,
+    range: SHEET_NAME,
     valueInputOption: "RAW",
     insertDataOption: "INSERT_ROWS",
     resource: {
-      "range": "Sheet1",
+      "range": SHEET_NAME,
       "majorDimension": "ROWS",
       "values": [
         book
