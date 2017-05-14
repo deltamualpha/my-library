@@ -14,6 +14,9 @@
     var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1w5Dc57wV0_rrKFsG7KM-qdPWEpqYk6lFu3JzAA0cSv0/pubhtml';
 
     function init() {
+      $("#reloadLink").unbind('click');
+      $("#reloadLink").on("click", function() { init(); });
+
       Tabletop.init({
         key: publicSpreadsheetUrl,
         callback: showInfo,
@@ -49,7 +52,7 @@
       $('#current').html(rendered);
     }
 
-    window.addEventListener('DOMContentLoaded', init)
+    window.addEventListener('DOMContentLoaded', init);
   </script>
 </head>
 <body>
@@ -58,6 +61,7 @@
       <h1>Library</h1>
       <a target="_blank" href="https://docs.google.com/spreadsheets/d/1w5Dc57wV0_rrKFsG7KM-qdPWEpqYk6lFu3JzAA0cSv0/edit">spreadsheet</a>
       <a target="_blank" href="https://github.com/deltamualpha/my-library">github</a>
+      <a id="reloadLink" href="#">reload</a>
     </div>
     <div id="current">No Book Selected</div>
     <div id="books"></div> <!-- Table goes here -->
@@ -93,12 +97,15 @@
       <h2>{{author}}</h2>
       <span>{{isbn-13}}</span><br/>
       <span>{{publisher}}, {{year}}</span><br/>
+      {{#series}}
+        <span>{{series}}, Volume {{volume}}</span><br/>
+      {{/series}}
       <span>{{format}}</span>
       <div class="description">
         <p>{{description}}</p>
         {{#notes}}
           <span>Notes:</span>
-          <p>{{.}}</p>
+          <p>{{notes}}</p>
         {{/notes}}
       </div>
     {{/book}}
