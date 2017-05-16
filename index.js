@@ -130,7 +130,7 @@ function normalizeGoogleData(book) {
   return {
     title: book.subtitle ? book.title + ': ' + book.subtitle : book.title,
     author: _.join(book.authors, ', '),
-    authorLast: book.authors ? _.join(_.lowerCase(_.head(_.reverse(_.split(book.authors[0], ' ')))), '') : '',
+    authorLast: book.authors ? _.lowerCase(_.head(_.reverse(_.split(book.authors[0], ' ')))) : '',
     "isbn-10": _.find(book.industryIdentifiers, { type: "ISBN_10" })
       ? _.find(book.industryIdentifiers, { type: "ISBN_10" }).identifier
       : '',

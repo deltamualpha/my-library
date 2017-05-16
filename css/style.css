@@ -59,6 +59,7 @@
 
 .bookTable .tRow .title {
   font-style: italic;
+  max-width: 600px;
 }
 
 #current h1 {
