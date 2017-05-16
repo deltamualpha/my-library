@@ -111,11 +111,12 @@ function insertRow(auth) {
       field: 'isbn',
       lang: 'en'
     }, function(error, results) {
-      if ( ! error && results.length > 0) {
+      if ( ! error && results.length > 0 ) {
+        console.log(results[0]);
         var book = normalizeGoogleData(results[0]);
         console.log(book);
         appendToSheet(auth, _.values(book));
-      } else if ( results.length == 0) {
+      } else if ( results.length == 0 ) {
         console.log("no book found");
         inputLoop(auth);
       } else {
@@ -126,12 +127,16 @@ function insertRow(auth) {
 }
 
 function normalizeGoogleData(book) {
-  var normalized = {
+  return {
     title: book.subtitle ? book.title + ': ' + book.subtitle : book.title,
     author: _.join(book.authors, ', '),
-    authorLast: _.lowerCase(_.reverse(_.split(book.authors[0], ' '))[0]),
-    "isbn-10": _.find(book.industryIdentifiers, { type: "ISBN_10" }).identifier || '',
-    "isbn-13": _.find(book.industryIdentifiers, { type: "ISBN_13" }).identifier || '',
+    authorLast: _.join(book.authors ? _.lowerCase(_.head(_.reverse(_.split(book.authors[0], ' ')))), '') : '',
+    "isbn-10": _.find(book.industryIdentifiers, { type: "ISBN_10" })
+      ? _.find(book.industryIdentifiers, { type: "ISBN_10" }).identifier
+      : '',
+    "isbn-13": _.find(book.industryIdentifiers, { type: "ISBN_13" })
+      ? _.find(book.industryIdentifiers, { type: "ISBN_13" }).identifier
+      : '',
     format: '',
     genre: book.categories ? book.categories[0] : '',
     publisher: _.trim(book.publisher, '"'),
@@ -143,7 +148,6 @@ function normalizeGoogleData(book) {
     notes: '',
     signed: ''
   };
-  return normalized;
 }
 
 function appendToSheet(auth, book) {
