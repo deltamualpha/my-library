@@ -53,6 +53,11 @@
   min-width: 50px;
 }
 
+.tRow:nth-child(odd) {
+  background: #f9f8ed;
+  border-bottom: 1px solid #d8d0a0;
+}
+
 .bookTable .tRow {
   cursor: pointer;
 }
