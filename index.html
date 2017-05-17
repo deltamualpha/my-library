@@ -29,6 +29,7 @@
     }
 
     function renderTable(data, sortField) {
+      data = _.sortBy(data, 'title');
       data = _.sortBy(data, sortField);
 
       $.each(data, function(key, value) {

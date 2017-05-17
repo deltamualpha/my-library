@@ -142,7 +142,7 @@ function normalizeGoogleData(book) {
     publisher: _.trim(book.publisher, '"'),
     series: '',
     volume: '',
-    publishedDate: book.publishedDate.substring(0, 4),
+    publishedDate: book.publishedDate ? book.publishedDate.substring(0, 4) : '',
     coverurl: '',
     description: book.description,
     notes: '',
