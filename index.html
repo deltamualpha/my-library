@@ -34,6 +34,7 @@
 
       $.each(data, function(key, value) {
         value.rowNumber = key; // re-key for new sort
+        value.sortTitle = titleCleaner(value.title);
       });
 
       var template = $('#Table').html();
@@ -51,6 +52,13 @@
       var template = $('#View').html();
       var rendered = Mustache.render(template, {book: book});
       $('#current').html(rendered);
+    }
+
+    function titleCleaner(title) {
+      return title
+        .replace('"', '')
+        .replace(':', '')
+        .replace(/^(An?|The)\s/i, '');
     }
 
     window.addEventListener('DOMContentLoaded', init);
@@ -71,7 +79,7 @@
   <script id="Table" type="text/html">
     <table class="bookTable">
       <tr>
-        <th data-sort-by="title" class="tHeader title">Title</th>
+        <th data-sort-by="sortTitle" class="tHeader title">Title</th>
         <th data-sort-by="authorLast" class="tHeader author">Author</th>
         <th data-sort-by="publisher" class="tHeader publisher">Publisher</th>
         <th data-sort-by="year" class="tHeader year">Year</th>
