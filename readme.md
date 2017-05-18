@@ -26,3 +26,5 @@ expects the following columns, but easily updated:
 2. follow the instructions at <https://developers.google.com/sheets/api/quickstart/nodejs#step_1_turn_on_the_api_name>, and save the resulting json file to `.credentials/client_secret.json`.
 3. run `npm install`.
 4. run `npm start`.
+
+the google books API is somewhat spotty; searching for a title at https://books.google.com/ will sometimes pull up a book and provide the ISBN they know it by. It also doesn't have comprehensive coverage of various editions of titles, and doesn't return image URLs or format information.
