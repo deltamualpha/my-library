@@ -28,7 +28,7 @@
       $("#search").unbind('input');
       $("#search").on("input", function(e) { search(data, e.target.value); });
 
-      renderTable(data, 'authorLast'); //default sorting on load is author's last name
+      renderTable(data);
     }
 
     function search(data, searchString) {
@@ -36,7 +36,7 @@
       relevantFields = ['title', 'author', 'genre', 'publisher', 'series', 'year'];
 
       if (!searchString) {
-        renderTable(data, 'authorLast');
+        renderTable(data);
         return false;
       }
 
@@ -49,6 +49,7 @@
 
     function renderTable(data, sortField) {
       data = _.sortBy(data, 'title');
+      data = _.sortBy(data, 'authorLast');
       if (sortField) { data = _.sortBy(data, sortField); }
 
       $.each(data, function(key, value) {
