@@ -13,6 +13,14 @@
   <script type='text/javascript'>    
     var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1w5Dc57wV0_rrKFsG7KM-qdPWEpqYk6lFu3JzAA0cSv0/pubhtml';
 
+    function init() {
+      Tabletop.init({
+        key: publicSpreadsheetUrl,
+        callback: showInfo,
+        simpleSheet: true
+      });
+    }
+
     function showInfo(data, tabletop) {
       $("#reloadLink").unbind('click');
       $("#reloadLink").on("click", function() { init(); });
@@ -74,13 +82,7 @@
         .replace(/^(An?|The)\s/i, '');
     }
 
-    window.addEventListener('DOMContentLoaded', function() {
-      Tabletop.init({
-        key: publicSpreadsheetUrl,
-        callback: showInfo,
-        simpleSheet: true
-      });
-    });
+    window.addEventListener('DOMContentLoaded', init);
   </script>
 </head>
 <body>
