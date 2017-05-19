@@ -13,28 +13,41 @@
   <script type='text/javascript'>    
     var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1w5Dc57wV0_rrKFsG7KM-qdPWEpqYk6lFu3JzAA0cSv0/pubhtml';
 
-    function init() {
+    function showInfo(data, tabletop) {
       $("#reloadLink").unbind('click');
       $("#reloadLink").on("click", function() { init(); });
 
-      Tabletop.init({
-        key: publicSpreadsheetUrl,
-        callback: showInfo,
-        simpleSheet: true
-      });
+      $("#search").unbind('input');
+      $("#search").on("input", function(e) { search(data, e.target.value); });
+
+      renderTable(data, 'authorLast'); //default sorting on load is author's last name
     }
 
-    function showInfo(data, tabletop) {
-      renderTable(data, 'authorLast'); //default sorting on load is author's last name
+    function search(data, searchString) {
+      searchBy = searchString.toLowerCase();
+      relevantFields = ['title', 'author', 'genre', 'publisher', 'series', 'year'];
+
+      if (!searchString) {
+        renderTable(data, 'authorLast');
+        return false;
+      }
+
+      renderTable(_.filter(data, function(book) {
+        return _.find(_.pick(book, relevantFields), function(field) {
+          return field.toLowerCase().indexOf(searchBy) !== -1;
+        });
+      }));
     }
 
     function renderTable(data, sortField) {
       data = _.sortBy(data, 'title');
-      data = _.sortBy(data, sortField);
+      if (sortField) { data = _.sortBy(data, sortField); }
 
       $.each(data, function(key, value) {
         value.rowNumber = key; // re-key for new sort
-        value.sortTitle = titleCleaner(value.title);
+        if (!value.sortTitle) {
+          value.sortTitle = titleCleaner(value.title);
+        }
       });
 
       var template = $('#Table').html();
@@ -61,7 +74,13 @@
         .replace(/^(An?|The)\s/i, '');
     }
 
-    window.addEventListener('DOMContentLoaded', init);
+    window.addEventListener('DOMContentLoaded', function() {
+      Tabletop.init({
+        key: publicSpreadsheetUrl,
+        callback: showInfo,
+        simpleSheet: true
+      });
+    });
   </script>
 </head>
 <body>
@@ -71,6 +90,9 @@
       <a target="_blank" href="https://docs.google.com/spreadsheets/d/1w5Dc57wV0_rrKFsG7KM-qdPWEpqYk6lFu3JzAA0cSv0/edit">spreadsheet</a>
       <a target="_blank" href="https://github.com/deltamualpha/my-library">github</a>
       <a id="reloadLink" href="#">reload</a>
+      <div id="searchBox">
+        <input id="search" type="text" name="search" placeholder="Search..."/>
+      </div>
     </div>
     <div id="current">No Book Selected</div>
     <div id="books"></div> <!-- Table goes here -->

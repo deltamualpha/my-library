@@ -12,6 +12,33 @@
   display: inline;
 }
 
+#searchBox {
+  position: absolute;
+  right: 10px;
+  top: 7px;
+  text-align: right;
+  width: 400px;
+}
+
+#searchBox input {
+  width: 300px;
+  font-size: 16px;
+  background: #f9f8ed;
+  padding: 2px 5px;
+  border: none;
+  border-bottom: 2px solid #d8d0a0;
+  font-family: 'Libre Baskerville', sans-serif;
+}
+
+#searchBox input:focus {
+  outline: none;
+}
+
+#searchBox input::placeholder {
+  font-family: 'Libre Baskerville', sans-serif;
+  color: #d8d0a0;
+}
+
 #current {
   background-color: #f7f3dc;
   width: calc(40vw - 40px);
