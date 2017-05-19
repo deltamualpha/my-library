@@ -50,7 +50,7 @@
 
       renderTable(_.filter(data, function(book) {
         return _.find(_.pick(book, relevantFields), function(field) {
-          return field.toLowerCase().indexOf(searchBy) !== -1;
+          return field.toLowerCase().replace('"', '').replace(':', '').indexOf(searchBy) !== -1;
         });
       }));
     }
