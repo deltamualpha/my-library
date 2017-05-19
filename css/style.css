@@ -75,6 +75,24 @@
   bottom: 2px;
 }
 
+.bookTable th.asc::after {
+  content: "\f0de";
+  font-family: FontAwesome;
+  font-size: x-small;
+  position: relative;
+  left: 4px;
+  bottom: 2px;
+}
+
+.bookTable th.desc::after {
+  content: "\f0dd";
+  font-family: FontAwesome;
+  font-size: x-small;
+  position: relative;
+  left: 4px;
+  bottom: 2px;
+}
+
 .bookTable td, .bookTable th {
   padding: 5px;
   min-width: 50px;

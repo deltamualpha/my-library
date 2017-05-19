@@ -4,7 +4,7 @@
   <title>Library</title>
   <script type="text/javascript" src='js/jquery.js'></script>
   <script type="text/javascript" src='js/mustache.js'></script>
-  <script type="text/javascript" src='js/lodash.core.min.js'></script>
+  <script type="text/javascript" src='js/lodash.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></link>
   <link rel="stylesheet" href="css/reset.css"></link>
@@ -12,6 +12,10 @@
   <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700" rel="stylesheet">
   <script type='text/javascript'>    
     var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1w5Dc57wV0_rrKFsG7KM-qdPWEpqYk6lFu3JzAA0cSv0/pubhtml';
+    var sortState = {
+      sortBy: 'authorLast',
+      sortOrder: 'asc'
+    };
 
     function init() {
       Tabletop.init({
@@ -27,6 +31,10 @@
 
       $("#search").unbind('input');
       $("#search").on("input", function(e) { search(data, e.target.value); });
+
+      $.each(data, function(key, value) {
+        value.sortTitle = titleCleaner(value.title);
+      });
 
       renderTable(data);
     }
@@ -48,15 +56,18 @@
     }
 
     function renderTable(data, sortField) {
-      data = _.sortBy(data, 'title');
-      data = _.sortBy(data, 'authorLast');
-      if (sortField) { data = _.sortBy(data, sortField); }
+      if (sortField) {
+        if (sortState.sortBy === sortField) {
+          sortState.sortOrder = (sortState.sortOrder === 'asc') ? 'desc' : 'asc'; // swap if we're looping
+        } else {
+          sortState.sortOrder = 'asc'; // reset if we've changed columns
+        }
+        sortState.sortBy = sortField;
+      }
+      data = _.orderBy(data, function(o) { return o[sortState.sortBy].toLowerCase(); }, sortState.sortOrder);
 
       $.each(data, function(key, value) {
         value.rowNumber = key; // re-key for new sort
-        if (!value.sortTitle) {
-          value.sortTitle = titleCleaner(value.title);
-        }
       });
 
       var template = $('#Table').html();
@@ -68,6 +79,7 @@
       $("#books tbody tr th[data-sort-by]").on("click", function() {
         renderTable(data, $(this).data('sortBy')); // only add callback when there's a sortBy attribute
       });
+      $("#books tbody tr th[data-sort-by=" + sortState.sortBy + ']').addClass(sortState.sortOrder);
     }
 
     function updateCurrentBook(book) {
