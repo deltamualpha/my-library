@@ -34,6 +34,12 @@
 
       $.each(data, function(key, value) {
         value.sortTitle = titleCleaner(value.title);
+        if (!value['isbn-10'] && value['isbn-13']) {
+          value['isbn-10'] = generateISBNfromEAN(value['isbn-13']);
+        }
+        if (!value.coverurl && value['isbn-10']) {
+          value.coverurl = generateAmazonCoverUrl(value['isbn-10']);
+        }
       });
 
       renderTable(data);
@@ -93,6 +99,18 @@
         .replace('"', '')
         .replace(':', '')
         .replace(/^(An?|The)\s/i, '');
+    }
+
+    function generateAmazonCoverUrl(ISBN) {
+      return "https://images-na.ssl-images-amazon.com/images/P/" + ISBN + ".01.LZZ.jpg"
+    }
+
+    function generateISBNfromEAN(EAN) {
+      ISBN = EAN.slice(3,12);
+      var checkdigit = ((11 - (_.reduce(ISBN.split(''), function(sum, num, key) {
+        return sum + (num * (10 - key));
+      }, 0) % 11)) % 11);
+      return ISBN + (checkdigit == 10 ? 'X' : checkdigit);
     }
 
     window.addEventListener('DOMContentLoaded', init);
