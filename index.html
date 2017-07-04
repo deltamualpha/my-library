@@ -142,7 +142,8 @@
       </tr>
       {{#books}}
         <tr class="tRow" id="{{rowNumber}}">
-          <td class="title">{{title}}{{#signed}}&nbsp;<span title="Signed by the author">✔</span>︎{{/signed}}</td>
+          <td class="title">{{title}}
+          {{#signed}}&nbsp;<span class="signed" title="Signed by the author">✒</span>︎{{/signed}}</td>
           <td class="author">{{author}}</td>
           <td class="publisher">{{publisher}}</td>
           <td class="year">{{year}}</td>
@@ -165,7 +166,7 @@
         <span>{{series}}, Volume {{volume}}</span><br/>
       {{/series}}
       {{#signed}}
-        <span>Signed by the author</span><br/>
+        <span>Signed by the author ✒</span><br/>
       {{/signed}}
       <span>{{format}}</span>
       <div class="description">
