@@ -107,6 +107,10 @@
   cursor: pointer;
 }
 
+.bookTable .onLoan {
+  color: #bbb;
+}
+
 .bookTable .tRow .title {
   font-style: italic;
   max-width: 600px;
@@ -133,4 +137,12 @@
 
 #current .description p {
   padding: 20px 0;
+}
+
+#current h1.onLoan {
+  color: #bbb;
+}
+
+#current h2.onLoan {
+  font-weight: bold;
 }

@@ -141,7 +141,7 @@
         <th class="tHeader isbn">ISBN</th>
       </tr>
       {{#books}}
-        <tr class="tRow" id="{{rowNumber}}">
+        <tr class="tRow {{#onLoan}}onLoan{{/onLoan}}" id="{{rowNumber}}">
           <td class="title">{{title}}
           {{#signed}}<span class="signed" title="Signed by the author">✒</span>︎{{/signed}}</td>
           <td class="author">{{author}}</td>
@@ -156,9 +156,9 @@
   <script id="View" type="text/html">
     {{#book}}
       {{#coverurl}}
-        <img src="{{coverurl}}"/>
+      <img src="{{coverurl}}"/>
       {{/coverurl}}
-      <h1>{{title}}</h1>
+      <h1 {{#onLoan}}class="onLoan" {{/onLoan}}>{{title}}</h1>
       <h2>{{author}}</h2>
       <span>{{isbn-13}}</span><br/>
       <span>{{publisher}}, {{year}}</span><br/>
@@ -169,6 +169,9 @@
         <span>Signed by the author ✒</span><br/>
       {{/signed}}
       <span>{{format}}</span>
+      {{#onLoan}}
+      <h2 class="onLoan">On loan to {{onLoan}}</h2>
+      {{/onLoan}}
       <div class="description">
         <p>{{description}}</p>
         {{#notes}}
