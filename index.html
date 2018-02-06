@@ -163,7 +163,7 @@
       <span>{{isbn-13}}</span><br/>
       <span>{{publisher}}, {{year}}</span><br/>
       {{#series}}
-        <span>{{series}}, Volume {{volume}}</span><br/>
+        <span>{{series}}{{#volume}}, Volume {{volume}}</span>{{/volume}}<br/>
       {{/series}}
       {{#signed}}
         <span>Signed by the author ✒</span><br/>
