@@ -70,7 +70,9 @@
         }
         sortState.sortBy = sortField;
       }
-      data = _.orderBy(data, function(o) { return o[sortState.sortBy].toLowerCase(); }, sortState.sortOrder);
+      data = _.orderBy(data, function(o) {
+        return o[sortState.sortBy].toLowerCase() + o["sortTitle"].toLowerCase();
+      }, sortState.sortOrder);
 
       $.each(data, function(key, value) {
         value.rowNumber = key; // re-key for new sort
