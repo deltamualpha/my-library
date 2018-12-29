@@ -46,7 +46,7 @@
     }
 
     function search(data, searchString) {
-      searchBy = searchString.toLowerCase();
+      searchBy = searchString.toLowerCase().replace('"', '').replace(':', '').replace("'", '').replace(" ", '');
       relevantFields = ['title', 'author', 'genre', 'publisher', 'series', 'year'];
 
       if (!searchString) {
@@ -56,7 +56,7 @@
 
       renderTable(_.filter(data, function(book) {
         return _.find(_.pick(book, relevantFields), function(field) {
-          return field.toLowerCase().replace('"', '').replace(':', '').indexOf(searchBy) !== -1;
+          return field.toLowerCase().replace('"', '').replace(':', '').replace("'", '').replace(" ", '').indexOf(searchBy) !== -1;
         });
       }));
     }
